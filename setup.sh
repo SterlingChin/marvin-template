@@ -154,6 +154,30 @@ case $PERSONALITY_CHOICE in
         ;;
 esac
 
+# IDE preference
+echo ""
+echo "What IDE/editor do you use? (for the 'mcode' command)"
+echo "  1) Cursor"
+echo "  2) VS Code"
+echo "  3) Other (enter command)"
+echo "  4) Skip"
+read -p "Choose [1/2/3/4]: " IDE_CHOICE
+
+case $IDE_CHOICE in
+    1)
+        IDE_CMD="cursor"
+        ;;
+    2)
+        IDE_CMD="code"
+        ;;
+    3)
+        read -p "Enter the command to open your IDE (e.g., 'subl', 'idea'): " IDE_CMD
+        ;;
+    *)
+        IDE_CMD=""
+        ;;
+esac
+
 # ============================================================================
 # PHASE 3: Generate Files
 # ============================================================================
@@ -340,20 +364,52 @@ else
     SHELL_RC="$HOME/.profile"
 fi
 
-# Create the alias function
+# Create the marvin function with ASCII art banner
 ALIAS_FUNCTION="
 # MARVIN - AI Chief of Staff
 marvin() {
+    echo -e '\e[1;33m███╗   ███╗    █████╗    ██████╗   ██╗   ██╗  ██╗   ███╗   ██╗   \e[0m'
+    echo -e '\e[1;33m████╗ ████║   ██╔══██╗   ██╔══██╗  ██║   ██║  ██║   ████╗  ██║   \e[0m'
+    echo -e '\e[1;33m██╔████╔██║   ███████║   ██████╔╝  ██║   ██║  ██║   ██╔██╗ ██║   \e[0m'
+    echo -e '\e[1;33m██║╚██╔╝██║   ██╔══██║   ██╔══██╗  ╚██╗ ██╔╝  ██║   ██║╚██╗██║   \e[0m'
+    echo -e '\e[1;33m██║ ╚═╝ ██║██╗██║  ██║██╗██║  ██║██╗╚████╔╝██╗██║██╗██║ ╚████║██╗\e[0m'
+    echo -e '\e[1;33m╚═╝     ╚═╝╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝ ╚═══╝ ╚═╝╚═╝╚═╝╚═╝  ╚═══╝╚═╝\e[0m'
+    echo ''
+    echo -e '\e[0;36m▖  ▖              ▄▖      ▘  ▗        ▗     \e[0m'
+    echo -e '\e[0;36m▛▖▞▌▀▌▛▌▀▌▛▌█▌▛▘  ▌▌▛▌▛▌▛▌▌▛▌▜▘▛▛▌█▌▛▌▜▘▛▘   \e[0m'
+    echo -e '\e[0;36m▌▝ ▌█▌▌▌█▌▙▌▙▖▄▌  ▛▌▙▌▙▌▙▌▌▌▌▐▖▌▌▌▙▖▌▌▐▖▄▌▗   \e[0m'
+    echo -e '\e[0;36m          ▄▌        ▌ ▌                   ▘    \e[0m'
+    echo -e '\e[0;36m▄▖     ▌    ▖▖    ▘        ▄▖         ▗     ▗   ▖ ▖  ▗ ▘▐▘▘    ▗ ▘      \e[0m'
+    echo -e '\e[0;36m▙▘█▌▀▌▛▌▛▘  ▌▌▀▌▛▘▌▛▌▌▌▛▘  ▐ ▛▛▌▛▌▛▌▛▘▜▘▀▌▛▌▜▘  ▛▖▌▛▌▜▘▌▜▘▌▛▘▀▌▜▘▌▛▌▛▌▛▘\e[0m'
+    echo -e '\e[0;36m▌▌▙▖█▌▙▌▄▌  ▚▘█▌▌ ▌▙▌▙▌▄▌  ▟▖▌▌▌▙▌▙▌▌ ▐▖█▌▌▌▐▖  ▌▝▌▙▌▐▖▌▐ ▌▙▖█▌▐▖▌▙▌▌▌▄▌\e[0m'
+    echo -e '\e[0;36m                                ▌                                       \e[0m'
+    echo ''
     cd \"$SCRIPT_DIR\" && claude
 }
 "
 
-# Check if alias already exists
+# Check if marvin alias already exists
 if grep -q "^marvin()" "$SHELL_RC" 2>/dev/null; then
     print_color "$YELLOW" "MARVIN alias already exists in $SHELL_RC"
 else
     echo "$ALIAS_FUNCTION" >> "$SHELL_RC"
     print_color "$GREEN" "Added 'marvin' command to $SHELL_RC"
+fi
+
+# Create mcode function if IDE was specified
+if [[ -n "$IDE_CMD" ]]; then
+    MCODE_FUNCTION="
+# MARVIN - Open in IDE
+mcode() {
+    $IDE_CMD \"$SCRIPT_DIR\"
+}
+"
+    if grep -q "^mcode()" "$SHELL_RC" 2>/dev/null; then
+        print_color "$YELLOW" "mcode alias already exists in $SHELL_RC"
+    else
+        echo "$MCODE_FUNCTION" >> "$SHELL_RC"
+        print_color "$GREEN" "Added 'mcode' command to $SHELL_RC (opens in $IDE_CMD)"
+    fi
 fi
 
 # ============================================================================
@@ -382,13 +438,12 @@ print_header "Setup Complete!"
 
 echo "Your MARVIN is ready!"
 echo ""
-echo "To start using MARVIN:"
+echo "Available commands (open a new terminal first, or run: source $SHELL_RC)"
 echo ""
-print_color "$CYAN" "  Option 1: Open a new terminal and type 'marvin'"
-echo ""
-print_color "$CYAN" "  Option 2: Run this now:"
-echo "    source $SHELL_RC"
-echo "    marvin"
+print_color "$CYAN" "  marvin    - Start MARVIN (Claude Code in your marvin directory)"
+if [[ -n "$IDE_CMD" ]]; then
+    print_color "$CYAN" "  mcode     - Open MARVIN in $IDE_CMD"
+fi
 echo ""
 echo "Once Claude Code starts, type /marvin to begin your first session."
 echo ""

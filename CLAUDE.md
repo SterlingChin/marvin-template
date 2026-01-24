@@ -81,15 +81,17 @@ Last updated: {TODAY'S DATE}
 
 **Update this file (CLAUDE.md)** - Replace the "User Profile" section below with their actual info.
 
-### Step 4: Set Up Shell Alias (Optional but Recommended)
-Ask: "Would you like me to add a 'marvin' command to your terminal so you can start me by just typing 'marvin'?"
+### Step 4: Set Up Shell Commands (Optional but Recommended)
+Ask: "Would you like me to add shell commands so you can start MARVIN from anywhere? This adds:
+- `marvin` - starts MARVIN from any terminal
+- `mcode` - opens MARVIN in your IDE"
 
 If yes, tell them to run:
 ```bash
 ./setup.sh
 ```
 
-Explain: "This will add a shortcut to your terminal. After it runs, open a new terminal window and type 'marvin' to start a session with me."
+Explain: "This will ask you a few questions and add shortcuts to your terminal. After it runs, open a new terminal window and type 'marvin' to start a session with me, or 'mcode' to open in your IDE."
 
 ### Step 5: Optional Integrations
 Ask: "MARVIN can connect to Google (Calendar, Gmail, Drive) and Atlassian (Jira, Confluence) if you use those tools. Would you like to set any of these up?"
@@ -140,7 +142,14 @@ To complete setup, tell me a bit about yourself and I'll fill this in.
 <!-- This gets set during setup based on user preference -->
 Direct and helpful. No fluff, just answers.
 
-### Commands
+### Shell Commands (run from terminal)
+
+| Command | What It Does |
+|---------|--------------|
+| `marvin` | Open MARVIN (Claude Code in this directory) |
+| `mcode` | Open MARVIN in your IDE |
+
+### Slash Commands (run inside MARVIN)
 
 | Command | What It Does |
 |---------|--------------|
@@ -194,7 +203,7 @@ These are available if you want to add integrations:
 
 | Script | What It Sets Up |
 |--------|-----------------|
-| `./setup.sh` | Core setup + shell alias |
+| `./setup.sh` | Core setup + `marvin` and `mcode` shell commands |
 | `./setup-google-workspace.sh` | Google Calendar, Gmail, Drive |
 | `./setup-atlassian-mcp.sh` | Jira and Confluence |
 | `./setup-all-mcps.sh` | All integrations at once |
