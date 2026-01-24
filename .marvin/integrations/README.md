@@ -8,16 +8,16 @@ This directory contains integrations that extend MARVIN's capabilities. Each int
 
 | Integration | Description | Setup |
 |-------------|-------------|-------|
-| [Google Workspace](./google-workspace/) | Gmail, Calendar, Drive | `./integrations/google-workspace/setup.sh` |
-| [Atlassian](./atlassian/) | Jira, Confluence | `./integrations/atlassian/setup.sh` |
+| [Google Workspace](./google-workspace/) | Gmail, Calendar, Drive | `./.marvin/integrations/google-workspace/setup.sh` |
+| [Atlassian](./atlassian/) | Jira, Confluence | `./.marvin/integrations/atlassian/setup.sh` |
 
 ---
 
 ## How to Install an Integration
 
-1. Browse the folders in this directory
+1. Browse the folders in this directory (`.marvin/integrations/`)
 2. Read the integration's README to see what it does
-3. Run its setup script: `./integrations/<name>/setup.sh`
+3. Run its setup script: `./.marvin/integrations/<name>/setup.sh`
 4. Restart MARVIN and you're good to go!
 
 Or just ask MARVIN: *"Help me set up the Notion integration"*
@@ -30,7 +30,7 @@ Want MARVIN to connect to a tool that's not here yet?
 
 **Option 1:** Open an issue on GitHub describing what you'd like
 
-**Option 2:** Add it to `integrations/REQUESTS.md` and submit a PR
+**Option 2:** Add it to `.marvin/integrations/REQUESTS.md` and submit a PR
 
 **Option 3:** Build it yourself! See "Contributing" below.
 
@@ -45,7 +45,7 @@ We'd love community contributions! If you've set up MARVIN with a tool you love,
 Each integration should have its own folder:
 
 ```
-integrations/
+.marvin/integrations/
 └── your-integration/
     ├── README.md      # What it does, who it's for, any requirements
     ├── setup.sh       # The setup script (should be interactive and friendly)
@@ -87,7 +87,7 @@ Anyone who uses Notion for notes, wikis, or project management.
 - A Notion integration token (the setup script will guide you)
 
 ## Setup
-Run: `./integrations/notion/setup.sh`
+Run: `./.marvin/integrations/notion/setup.sh`
 
 ## Try It
 After setup, try these commands with MARVIN:

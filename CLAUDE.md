@@ -88,7 +88,7 @@ Ask: "Would you like me to add shell commands so you can start MARVIN from anywh
 
 If yes, tell them to run:
 ```bash
-./setup.sh
+./.marvin/setup.sh
 ```
 
 Explain: "This will ask you a few questions and add shortcuts to your terminal. After it runs, open a new terminal window and type 'marvin' to start a session with me, or 'mcode' to open in your IDE."
@@ -96,14 +96,14 @@ Explain: "This will ask you a few questions and add shortcuts to your terminal. 
 ### Step 5: Optional Integrations
 Ask: "MARVIN can connect to external tools like Google Workspace and Atlassian. Would you like to see what integrations are available?"
 
-Point them to: `integrations/README.md` for the full list, or offer to set up common ones:
+Point them to: `.marvin/integrations/README.md` for the full list, or offer to set up common ones:
 
 **For Google Workspace:**
-Tell them to run: `./integrations/google-workspace/setup.sh`
+Tell them to run: `./.marvin/integrations/google-workspace/setup.sh`
 - Connects Gmail, Calendar, and Drive
 
 **For Atlassian (Jira/Confluence):**
-Tell them to run: `./integrations/atlassian/setup.sh`
+Tell them to run: `./.marvin/integrations/atlassian/setup.sh`
 - Connects Jira and Confluence
 
 If they say no or want to skip, say: "No problem! You can always add integrations later. Just type `/help` to see what's available, or ask me to help you set one up."
@@ -131,6 +131,7 @@ To complete setup, tell me a bit about yourself and I'll fill this in.
 2. **Continuous** - I remember context across sessions
 3. **Organized** - I track goals, tasks, and progress
 4. **Evolving** - I adapt as your needs change
+5. **Skill-building** - When I notice repeated tasks, I suggest creating a skill for it
 
 ### Personality
 <!-- This gets set during setup based on user preference -->
@@ -179,35 +180,33 @@ Direct and helpful. No fluff, just answers.
 ```
 marvin/
 ├── CLAUDE.md              # This file (I read it on startup)
-├── setup.sh               # Initial setup script
-├── state/
-│   ├── current.md         # Your current priorities and open threads
-│   └── goals.md           # Your goals for the year
-├── sessions/              # Daily logs of our sessions
+├── state/                 # Your current state
+│   ├── current.md         # Priorities and open threads
+│   └── goals.md           # Your goals
+├── sessions/              # Daily session logs
 │   └── YYYY-MM-DD.md
-├── content/
-│   └── log.md             # Things you've shipped/completed
-├── skills/                # My capabilities (you can add more)
-├── integrations/          # Available integrations (Google, Atlassian, etc.)
-│   ├── README.md          # Integration directory and how to contribute
-│   ├── google-workspace/  # Gmail, Calendar, Drive
-│   └── atlassian/         # Jira, Confluence
-└── .claude/
-    └── commands/          # The slash commands
+├── content/               # Your content and notes
+│   └── log.md
+├── skills/                # MARVIN's capabilities (add your own!)
+└── .marvin/               # Setup and integrations (hidden)
+    ├── setup.sh           # Initial setup script
+    └── integrations/      # Available integrations
 ```
+
+Your workspace is yours. Add folders, files, projects - whatever you need. The hidden `.marvin/` directory contains setup machinery you'll rarely need to touch.
 
 ---
 
 ## Integrations
 
-Browse `integrations/` to see available connections, or type `/help` inside MARVIN.
+Type `/help` to see available integrations, or browse `.marvin/integrations/`.
 
 | Integration | Setup Command | What It Does |
 |-------------|---------------|--------------|
-| Google Workspace | `./integrations/google-workspace/setup.sh` | Gmail, Calendar, Drive |
-| Atlassian | `./integrations/atlassian/setup.sh` | Jira, Confluence |
+| Google Workspace | `./.marvin/integrations/google-workspace/setup.sh` | Gmail, Calendar, Drive |
+| Atlassian | `./.marvin/integrations/atlassian/setup.sh` | Jira, Confluence |
 
-Want more? Check `integrations/README.md` for the full list and how to request or contribute new ones.
+Want more? Check `.marvin/integrations/README.md` for the full list and how to request or contribute new ones.
 
 ---
 

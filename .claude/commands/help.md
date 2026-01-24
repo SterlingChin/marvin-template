@@ -51,24 +51,24 @@ If no integrations are configured, say:
 ```
 ## Your Integrations
 
-No integrations configured yet. Run `./setup-google-workspace.sh` or `./setup-atlassian-mcp.sh` to add some, or ask me to help you set one up!
+No integrations configured yet. I can help you set one up, or you can run the setup scripts in `.marvin/integrations/`.
 ```
 
 ### 3. Show Available Integrations
 
-Read `integrations/README.md` to see the full list of available integrations, then display:
+Read `.marvin/integrations/README.md` to see the full list of available integrations, then display:
 
 ```
 ## Available Integrations
 
-These can be added anytime. Browse `integrations/` for details.
+These can be added anytime. Browse `.marvin/integrations/` for details.
 
-| Integration      | Setup Command                            | What It Does                 |
-|------------------|------------------------------------------|------------------------------|
-| Google Workspace | ./integrations/google-workspace/setup.sh | Gmail, Calendar, Drive       |
-| Atlassian        | ./integrations/atlassian/setup.sh        | Jira, Confluence             |
+| Integration      | Setup Command                                   | What It Does                 |
+|------------------|-------------------------------------------------|------------------------------|
+| Google Workspace | ./.marvin/integrations/google-workspace/setup.sh | Gmail, Calendar, Drive       |
+| Atlassian        | ./.marvin/integrations/atlassian/setup.sh        | Jira, Confluence             |
 
-Want something else? Check `integrations/REQUESTS.md` to see what's planned or request a new one!
+Want something else? Check `.marvin/integrations/REQUESTS.md` to see what's planned or request a new one!
 ```
 
 ### 4. Offer Next Steps
