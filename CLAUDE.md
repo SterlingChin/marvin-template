@@ -157,6 +157,7 @@ Direct and helpful. No fluff, just answers.
 | `/end` | End session and save everything |
 | `/update` | Quick checkpoint (save progress) |
 | `/commit` | Review and commit git changes |
+| `/code` | Open MARVIN in your IDE |
 
 ### Session Flow
 
