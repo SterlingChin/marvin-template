@@ -56,6 +56,30 @@ When helping set up integrations that require API keys:
 3. **Update both files** - Real value in `.env`, placeholder in `.env.example`
 4. **Guide the user** - Explain where to get the API key
 
+### Safety Guidelines
+
+**IMPORTANT:** Before performing any of these actions, ALWAYS confirm with the user first:
+
+| Action | Example | Why Confirm |
+|--------|---------|-------------|
+| **Sending emails** | Gmail, Outlook | Could go to wrong recipients |
+| **Posting messages** | Slack, Teams, Discord | Visible to others immediately |
+| **Modifying tickets/issues** | Jira, Linear, GitHub | Affects team workflows |
+| **Deleting or overwriting** | Any file or resource | Data loss is hard to reverse |
+| **Publishing content** | Confluence, Notion, blogs | Public-facing changes |
+| **Calendar changes** | Creating/modifying events | Affects other attendees |
+
+**How to confirm:**
+- State exactly what you're about to do
+- Include key details (recipients, channels, file names)
+- Ask: "Should I proceed?" or "Ready to send?"
+- Wait for explicit approval
+
+**Example:**
+> "I'm about to send an email to the marketing team (marketing@company.com) with the subject 'Q1 Report Draft'. Should I proceed?"
+
+**When in doubt, ask.** It's always better to confirm than to send something that can't be unsent.
+
 ---
 
 ## Commands

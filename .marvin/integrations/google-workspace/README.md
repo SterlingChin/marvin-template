@@ -39,6 +39,19 @@ After setup, try these commands with MARVIN:
 - "What meetings do I have this week?"
 - "Send an email to [person] about [topic]"
 
+## Danger Zone
+
+This integration can perform actions that affect others or can't be easily undone:
+
+| Action | Risk Level | Who's Affected |
+|--------|------------|----------------|
+| Send emails | **High** | Recipients see it immediately |
+| Create/modify calendar events | **Medium** | Other attendees are notified |
+| Delete emails | **Medium** | May be recoverable from trash |
+| Read emails, calendar, Drive | Low | No external impact |
+
+**MARVIN will always confirm before sending emails or modifying calendar events.**
+
 ## Troubleshooting
 
 **"Client secret is required"**

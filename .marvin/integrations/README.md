@@ -151,9 +151,36 @@ Your README.md must include these sections:
 | **Prerequisites** | Required accounts, permissions, etc. |
 | **Setup** | Code block with setup command |
 | **Try It** | Example commands to test |
+| **Danger Zone** | What actions can affect others or can't be undone (see below) |
 | **Troubleshooting** | Common issues and solutions |
 
 End with an attribution line: `*Contributed by Your Name*`
+
+### Danger Zone Section (Required)
+
+Every integration README must include a "Danger Zone" section that clearly documents:
+- **What write/send/delete actions are possible**
+- **Who could be affected** (team members, external contacts, etc.)
+- **What can't be undone**
+
+This helps users understand the risks before enabling an integration.
+
+**Example Danger Zone section:**
+
+```markdown
+## Danger Zone
+
+This integration can perform actions that affect others or can't be easily undone:
+
+| Action | Risk Level | Who's Affected |
+|--------|------------|----------------|
+| Send emails | High | Recipients see it immediately |
+| Delete files | High | Data loss may be permanent |
+| Modify calendar | Medium | Other attendees are notified |
+| Read messages | Low | No external impact |
+
+MARVIN will always confirm before performing high-risk actions.
+```
 
 ### Example README.md
 

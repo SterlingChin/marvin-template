@@ -36,6 +36,19 @@ After setup, try these commands with MARVIN:
 - "What tickets are in the current sprint?"
 - "Find Jira issues assigned to me"
 
+## Danger Zone
+
+This integration can perform actions that affect your team:
+
+| Action | Risk Level | Who's Affected |
+|--------|------------|----------------|
+| Modify Jira tickets | **Medium** | Team sees changes, notifications sent |
+| Edit Confluence pages | **Medium** | Team sees changes in shared docs |
+| Create issues/pages | Low | Creates new items, doesn't affect existing |
+| Read tickets, pages, search | Low | No external impact |
+
+**MARVIN will always confirm before modifying tickets or editing pages.**
+
 ## Troubleshooting
 
 **Browser doesn't open for login**

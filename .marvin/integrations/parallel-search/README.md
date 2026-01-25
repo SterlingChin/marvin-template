@@ -40,6 +40,17 @@ Search the web with natural language queries. Returns results optimized for LLMs
 ### web_fetch
 Fetch and extract relevant content from specific URLs. Great for exploring search results in depth.
 
+## Danger Zone
+
+This integration is **read-only** and cannot modify external data.
+
+| Action | Risk Level | Who's Affected |
+|--------|------------|----------------|
+| Web search | Low | No external impact |
+| Fetch URL content | Low | No external impact |
+
+No confirmation needed - this integration only reads public web content.
+
 ## Troubleshooting
 
 **Search returns no results**

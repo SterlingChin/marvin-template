@@ -99,6 +99,24 @@ For security, you can restrict the bot to specific Telegram users:
 
 If not set, the bot accepts messages from anyone (not recommended for production).
 
+## Danger Zone
+
+This integration has access to your MARVIN workspace:
+
+| Action | Risk Level | Who's Affected |
+|--------|------------|----------------|
+| Write/overwrite files | **Medium** | Your local workspace |
+| Delete files | **Medium** | Your local workspace |
+| Read files | Low | No external impact |
+| Fetch URLs | Low | No external impact |
+
+**Security considerations:**
+- Set `TELEGRAM_ALLOWED_USERS` to restrict who can use your bot
+- The bot token grants full control - keep it secret
+- Files are only accessible within your MARVIN workspace (sandboxed)
+
+**MARVIN will confirm before overwriting existing files.**
+
 ## Troubleshooting
 
 **"Unauthorized" when messaging the bot**

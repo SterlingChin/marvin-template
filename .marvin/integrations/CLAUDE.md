@@ -79,8 +79,29 @@ Every integration README.md MUST have these sections in order:
 4. **Prerequisites** - Required accounts, API keys, permissions
 5. **Setup** - Code block with the setup command
 6. **Try It** - Example commands users can try
-7. **Troubleshooting** - Common issues and solutions
-8. **Attribution** - `*Contributed by Name*` at the bottom
+7. **Danger Zone** - Actions that affect others or can't be undone (REQUIRED)
+8. **Troubleshooting** - Common issues and solutions
+9. **Attribution** - `*Contributed by Name*` at the bottom
+
+## Danger Zone Section (REQUIRED)
+
+Every integration MUST document risky actions. Use this format:
+
+```markdown
+## Danger Zone
+
+This integration can perform actions that affect others or can't be easily undone:
+
+| Action | Risk Level | Who's Affected |
+|--------|------------|----------------|
+| Send emails | High | Recipients see immediately |
+| Delete files | High | Data loss may be permanent |
+| Read data | Low | No external impact |
+
+MARVIN will always confirm before performing high-risk actions.
+```
+
+If an integration is read-only, still include the section stating "This integration is read-only and cannot modify external data."
 
 ## Checklist Before Submitting
 
