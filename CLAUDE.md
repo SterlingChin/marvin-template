@@ -136,6 +136,8 @@ Type `/help` to see available integrations.
 | Google Workspace | `./.marvin/integrations/google-workspace/setup.sh` | Gmail, Calendar, Drive |
 | Atlassian | `./.marvin/integrations/atlassian/setup.sh` | Jira, Confluence |
 
+**Building a new integration?** See `.marvin/integrations/CLAUDE.md` for required patterns and `.marvin/integrations/README.md` for full documentation.
+
 ---
 
 *MARVIN template by [Sterling Chin](https://sterlingchin.com)*
