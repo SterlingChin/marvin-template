@@ -87,35 +87,47 @@ Set these in `.env` or your environment:
 |----------|----------|-------------|
 | `TELEGRAM_BOT_TOKEN` | Yes | Bot token from BotFather |
 | `ANTHROPIC_API_KEY` | Yes | Your Anthropic API key |
-| `TELEGRAM_ALLOWED_USERS` | No | Comma-separated user IDs for authorization |
+| `TELEGRAM_ALLOWED_USERS` | **Yes** | Comma-separated user IDs for authorization |
 
-### User Authorization
+### User Authorization (Required)
 
-For security, you can restrict the bot to specific Telegram users:
+**This bot has full access to your MARVIN workspace.** You MUST specify which Telegram users are allowed to use it.
 
-1. Message your bot and run `/status` to see your user ID
-2. Add to `.env`: `TELEGRAM_ALLOWED_USERS=123456789`
-3. Multiple users: `TELEGRAM_ALLOWED_USERS=123456789,987654321`
+To find your Telegram user ID:
+1. Message [@userinfobot](https://t.me/userinfobot) on Telegram
+2. It will reply with your numeric user ID
 
-If not set, the bot accepts messages from anyone (not recommended for production).
+Then configure authorization:
+1. Add to `.env`: `TELEGRAM_ALLOWED_USERS=123456789`
+2. Multiple users: `TELEGRAM_ALLOWED_USERS=123456789,987654321`
+
+The bot will refuse to start without authorized users configured.
 
 ## Danger Zone
 
-This integration has access to your MARVIN workspace:
+This integration has **full access** to your MARVIN workspace:
 
 | Action | Risk Level | Who's Affected |
 |--------|------------|----------------|
-| Write/overwrite files | **Medium** | Your local workspace |
-| Delete files | **Medium** | Your local workspace |
-| Read files | Low | No external impact |
+| Write/overwrite files | **High** | Your local workspace |
+| Read any file | **Medium** | Could expose sensitive data |
 | Fetch URLs | Low | No external impact |
 
-**Security considerations:**
-- Set `TELEGRAM_ALLOWED_USERS` to restrict who can use your bot
-- The bot token grants full control - keep it secret
-- Files are only accessible within your MARVIN workspace (sandboxed)
+### Security Model
 
-**MARVIN will confirm before overwriting existing files.**
+- **Mandatory authorization** - Bot requires `TELEGRAM_ALLOWED_USERS` to start
+- **Path sandboxing** - All file operations restricted to MARVIN workspace
+- **Symlink protection** - Symlinks pointing outside workspace are blocked
+- **Access logging** - Unauthorized access attempts are logged with user ID
+- **Error sanitization** - Internal paths not exposed in error messages
+
+### Security Recommendations
+
+1. **Keep your bot token secret** - Anyone with the token can receive messages
+2. **Limit authorized users** - Only add users you trust completely
+3. **Review the logs** - Check for unauthorized access attempts
+4. **Don't store secrets in workspace** - The bot can read any file in your MARVIN directory
+5. **Run on trusted network** - The bot communicates with Telegram servers
 
 ## Troubleshooting
 

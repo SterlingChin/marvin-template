@@ -252,9 +252,25 @@ class ConversationStore:
 class MARVINBot:
     """MARVIN Telegram Bot with tool use."""
 
-    def __init__(self, token: str, allowed_user_ids: list[int] = None):
+    def __init__(self, token: str, allowed_user_ids: list[int]):
+        """Initialize the bot.
+
+        Args:
+            token: Telegram bot token
+            allowed_user_ids: List of authorized Telegram user IDs (REQUIRED for security)
+
+        Raises:
+            ValueError: If allowed_user_ids is empty
+        """
+        if not allowed_user_ids:
+            raise ValueError(
+                "SECURITY: allowed_user_ids is required. "
+                "Set TELEGRAM_ALLOWED_USERS env var or pass --user-id. "
+                "Find your user ID by messaging @userinfobot on Telegram."
+            )
+
         self.token = token
-        self.allowed_user_ids = allowed_user_ids or []
+        self.allowed_user_ids = allowed_user_ids
         self.store = ConversationStore(DB_PATH)
         self.fetcher = ContentFetcher()
         self.claude = anthropic.Anthropic()
@@ -262,6 +278,8 @@ class MARVINBot:
 
         # Load MARVIN context
         self.system_prompt = self._build_system_prompt()
+
+        logger.info(f"Bot initialized with {len(allowed_user_ids)} authorized user(s)")
 
     def _build_system_prompt(self) -> str:
         """Build the system prompt with MARVIN context."""
@@ -309,9 +327,39 @@ Key locations in the MARVIN workspace:
 
     def _is_authorized(self, user_id: int) -> bool:
         """Check if user is authorized."""
-        if not self.allowed_user_ids:
-            return True
         return user_id in self.allowed_user_ids
+
+    def _validate_path(self, path: str) -> Path:
+        """Validate and resolve a path, ensuring it's within MARVIN workspace.
+
+        Args:
+            path: Relative path within workspace
+
+        Returns:
+            Resolved absolute Path
+
+        Raises:
+            ValueError: If path is outside workspace or uses symlinks to escape
+        """
+        # Resolve the full path
+        file_path = (MARVIN_ROOT / path).resolve()
+
+        # Check it's within MARVIN_ROOT (handles .. traversal)
+        try:
+            file_path.relative_to(MARVIN_ROOT.resolve())
+        except ValueError:
+            raise ValueError("Access denied: path outside workspace")
+
+        # Security: Check for symlink escape attacks
+        # A symlink could point outside MARVIN_ROOT even if the path looks valid
+        if file_path.is_symlink():
+            target = file_path.resolve()
+            try:
+                target.relative_to(MARVIN_ROOT.resolve())
+            except ValueError:
+                raise ValueError("Access denied: symlink points outside workspace")
+
+        return file_path
 
     def _execute_tool(self, tool_name: str, tool_input: dict) -> str:
         """Execute a tool and return the result."""
@@ -338,22 +386,23 @@ Key locations in the MARVIN workspace:
                 )
             else:
                 return f"Unknown tool: {tool_name}"
+        except ValueError as e:
+            # Security-related errors (path validation) - log but return sanitized message
+            logger.warning(f"Security violation in {tool_name}: {e}")
+            return f"Error: {str(e)}"
         except Exception as e:
-            logger.error(f"Tool execution error: {e}")
-            return f"Error executing {tool_name}: {str(e)}"
+            # Log full error internally, return sanitized message to user
+            logger.error(f"Tool execution error in {tool_name}: {e}", exc_info=True)
+            return f"Error executing {tool_name}. Check logs for details."
 
     def _tool_read_file(self, path: str) -> str:
         """Read a file from MARVIN workspace."""
-        file_path = MARVIN_ROOT / path
+        file_path = self._validate_path(path)
+
         if not file_path.exists():
             return f"File not found: {path}"
         if not file_path.is_file():
             return f"Not a file: {path}"
-        # Security: ensure path is within MARVIN_ROOT
-        try:
-            file_path.resolve().relative_to(MARVIN_ROOT.resolve())
-        except ValueError:
-            return "Access denied: path outside MARVIN workspace"
 
         content = file_path.read_text()
         if len(content) > 10000:
@@ -362,12 +411,10 @@ Key locations in the MARVIN workspace:
 
     def _tool_write_file(self, path: str, content: str) -> str:
         """Write content to a file."""
-        file_path = MARVIN_ROOT / path
-        # Security check
-        try:
-            file_path.resolve().relative_to(MARVIN_ROOT.resolve())
-        except ValueError:
-            return "Access denied: path outside MARVIN workspace"
+        # For write, we validate the parent directory exists within workspace
+        # (the file itself may not exist yet)
+        parent_path = self._validate_path(str(Path(path).parent) if Path(path).parent != Path('.') else '.')
+        file_path = parent_path / Path(path).name
 
         # Create parent directories if needed
         file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -414,7 +461,8 @@ Key locations in the MARVIN workspace:
 
     def _tool_list_directory(self, path: str = ".") -> str:
         """List contents of a directory."""
-        dir_path = MARVIN_ROOT / path
+        dir_path = self._validate_path(path)
+
         if not dir_path.exists():
             return f"Directory not found: {path}"
         if not dir_path.is_dir():
@@ -433,11 +481,12 @@ Key locations in the MARVIN workspace:
 
     def _tool_append_to_file(self, path: str, content: str) -> str:
         """Append content to a file."""
-        file_path = MARVIN_ROOT / path
-        try:
-            file_path.resolve().relative_to(MARVIN_ROOT.resolve())
-        except ValueError:
-            return "Access denied: path outside MARVIN workspace"
+        # For append, validate parent directory for new files, or full path for existing
+        if (MARVIN_ROOT / path).exists():
+            file_path = self._validate_path(path)
+        else:
+            parent_path = self._validate_path(str(Path(path).parent) if Path(path).parent != Path('.') else '.')
+            file_path = parent_path / Path(path).name
 
         if file_path.exists():
             existing = file_path.read_text()
@@ -473,17 +522,12 @@ Key locations in the MARVIN workspace:
 
     def _tool_send_file(self, path: str, caption: str = "") -> str:
         """Queue a file to be sent as Telegram attachment."""
-        file_path = MARVIN_ROOT / path
+        file_path = self._validate_path(path)
+
         if not file_path.exists():
             return f"File not found: {path}"
         if not file_path.is_file():
             return f"Not a file: {path}"
-
-        # Security check
-        try:
-            file_path.resolve().relative_to(MARVIN_ROOT.resolve())
-        except ValueError:
-            return "Access denied: path outside MARVIN workspace"
 
         # Queue file for sending after response
         self._pending_files.append({
@@ -622,7 +666,11 @@ Key locations in the MARVIN workspace:
     async def start_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /start command."""
         if not self._is_authorized(update.effective_user.id):
-            await update.message.reply_text("Unauthorized.")
+            logger.warning(
+                f"Unauthorized /start attempt: user_id={update.effective_user.id}, "
+                f"username={update.effective_user.username}"
+            )
+            await update.message.reply_text("Unauthorized. Your access attempt has been logged.")
             return
 
         await update.message.reply_text(
@@ -638,6 +686,8 @@ Key locations in the MARVIN workspace:
     async def help_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /help command."""
         if not self._is_authorized(update.effective_user.id):
+            logger.warning(f"Unauthorized /help attempt: user_id={update.effective_user.id}")
+            await update.message.reply_text("Unauthorized.")
             return
 
         await update.message.reply_text(
@@ -657,6 +707,8 @@ Key locations in the MARVIN workspace:
     async def clear_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /clear command."""
         if not self._is_authorized(update.effective_user.id):
+            logger.warning(f"Unauthorized /clear attempt: user_id={update.effective_user.id}")
+            await update.message.reply_text("Unauthorized.")
             return
 
         self.store.clear_history(update.effective_chat.id)
@@ -665,6 +717,8 @@ Key locations in the MARVIN workspace:
     async def status_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /status command."""
         if not self._is_authorized(update.effective_user.id):
+            logger.warning(f"Unauthorized /status attempt: user_id={update.effective_user.id}")
+            await update.message.reply_text("Unauthorized.")
             return
 
         history = self.store.get_history(update.effective_chat.id)
@@ -672,14 +726,15 @@ Key locations in the MARVIN workspace:
             f"**MARVIN Status:**\n\n"
             f"• Messages in history: {len(history)}\n"
             f"• Tools available: {len(TOOLS)}\n"
-            f"• User ID: {update.effective_user.id}\n"
-            f"• Workspace: {MARVIN_ROOT.name}",
+            f"• Authorized users: {len(self.allowed_user_ids)}",
             parse_mode="Markdown",
         )
 
     async def save_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /save command - checkpoint conversation to session log."""
         if not self._is_authorized(update.effective_user.id):
+            logger.warning(f"Unauthorized /save attempt: user_id={update.effective_user.id}")
+            await update.message.reply_text("Unauthorized.")
             return
 
         # Get optional topic from command args
@@ -761,7 +816,12 @@ Conversation:
     async def handle_message(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle regular messages."""
         if not self._is_authorized(update.effective_user.id):
-            await update.message.reply_text("Unauthorized.")
+            logger.warning(
+                f"Unauthorized access attempt: user_id={update.effective_user.id}, "
+                f"username={update.effective_user.username}, "
+                f"message={update.message.text[:50] if update.message.text else '[no text]'}..."
+            )
+            await update.message.reply_text("Unauthorized. Your access attempt has been logged.")
             return
 
         chat_id = update.effective_chat.id
@@ -799,7 +859,11 @@ Conversation:
     async def handle_photo(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle photo messages - analyze images with Claude Vision."""
         if not self._is_authorized(update.effective_user.id):
-            await update.message.reply_text("Unauthorized.")
+            logger.warning(
+                f"Unauthorized photo upload attempt: user_id={update.effective_user.id}, "
+                f"username={update.effective_user.username}"
+            )
+            await update.message.reply_text("Unauthorized. Your access attempt has been logged.")
             return
 
         chat_id = update.effective_chat.id
@@ -960,10 +1024,12 @@ Conversation:
 def main():
     """Entry point."""
     import argparse
+    import sys
 
     parser = argparse.ArgumentParser(description="MARVIN Telegram Bot")
     parser.add_argument("--token", help="Telegram bot token (or set TELEGRAM_BOT_TOKEN env)")
-    parser.add_argument("--user-id", type=int, help="Allowed user ID (for security)")
+    parser.add_argument("--user-id", type=int, action="append", dest="user_ids",
+                        help="Allowed user ID (can be specified multiple times)")
 
     args = parser.parse_args()
 
@@ -971,20 +1037,43 @@ def main():
     if not token:
         print("Error: Telegram bot token required.")
         print("Either pass --token or set TELEGRAM_BOT_TOKEN environment variable.")
-        return
+        sys.exit(1)
 
-    # Parse allowed users from environment or args
+    # Parse allowed users from environment or args (REQUIRED for security)
     allowed_users = []
-    if args.user_id:
-        allowed_users = [args.user_id]
+    if args.user_ids:
+        allowed_users = args.user_ids
     elif os.environ.get("TELEGRAM_ALLOWED_USERS"):
         try:
             allowed_users = [int(uid.strip()) for uid in os.environ["TELEGRAM_ALLOWED_USERS"].split(",")]
         except ValueError:
-            print("Warning: Could not parse TELEGRAM_ALLOWED_USERS")
+            print("Error: Could not parse TELEGRAM_ALLOWED_USERS. Must be comma-separated integers.")
+            sys.exit(1)
 
-    bot = MARVINBot(token, allowed_users)
-    bot.run()
+    if not allowed_users:
+        print("=" * 60)
+        print("SECURITY ERROR: User authorization is required.")
+        print("=" * 60)
+        print()
+        print("The Telegram bot has full access to your MARVIN workspace.")
+        print("You MUST specify which Telegram users are allowed to use it.")
+        print()
+        print("To find your Telegram user ID:")
+        print("  1. Message @userinfobot on Telegram")
+        print("  2. It will reply with your user ID")
+        print()
+        print("Then either:")
+        print("  - Set TELEGRAM_ALLOWED_USERS=123456789 in your .env file")
+        print("  - Or run with: --user-id 123456789")
+        print()
+        sys.exit(1)
+
+    try:
+        bot = MARVINBot(token, allowed_users)
+        bot.run()
+    except ValueError as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
