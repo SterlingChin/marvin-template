@@ -13,6 +13,8 @@ This directory contains integrations that extend MARVIN's capabilities. Each int
 | [Parallel Search](./parallel-search/) | Web search | `./.marvin/integrations/parallel-search/setup.sh` |
 | [Slack](./slack/) | Team messaging, search | `./.marvin/integrations/slack/setup.sh` |
 | [Telegram](./telegram/) | Mobile AI assistant via Telegram | `./.marvin/integrations/telegram/setup.sh` |
+| [Linear](./linear/) | Issues, projects, cycles | `./.marvin/integrations/linear/setup.sh` |
+| [Notion](./notion/) | Pages, databases, notes, knowledge base | `./.marvin/integrations/notion/setup.sh` |
 
 ---
 
@@ -249,8 +251,6 @@ Re-run the setup script and copy a fresh token.
 
 Here are some integrations we'd love to see:
 
-- **Notion** - Notes, wikis, databases
-- **Linear** - Issue tracking
 - **Figma** - Design files
 - **Airtable** - Spreadsheets and databases
 - **HubSpot** - CRM
