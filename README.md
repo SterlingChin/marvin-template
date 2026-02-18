@@ -32,6 +32,38 @@ MARVIN extends Claude Code with capabilities designed for getting things done:
 
 That's it. MARVIN walks you through the rest: your profile, goals, workspace location, and optional integrations.
 
+## Getting Started with GitHub Copilot CLI
+
+Want to use Copilot CLI to set up MARVIN quickly? Here's how:
+
+### Prerequisites
+
+- [GitHub Copilot CLI](https://cli.github.com/) installed and authenticated
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed
+
+### Quick Setup
+
+Use these Copilot commands to get started:
+
+```bash
+# Navigate to your projects directory
+gh copilot suggest "clone marvin template repository"
+
+# Run the setup script
+gh copilot suggest "run setup script for marvin"
+
+# Start MARVIN
+gh copilot suggest "start marvin AI assistant"
+```
+
+The `.marvin/setup.sh` script handles the complete installation: prerequisites, workspace creation, profile setup, and shell aliases. Just follow the prompts to configure your AI Chief of Staff.
+
+For additional integrations (Google Workspace, Slack, etc.), use:
+
+```bash
+gh copilot suggest "configure marvin integrations"
+```
+
 ## What You Get
 
 ### Daily Workflow
