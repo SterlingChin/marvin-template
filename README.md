@@ -14,7 +14,7 @@ MARVIN extends Claude Code with capabilities designed for getting things done:
 - **Extensibility** - Add commands, agents, and skills tailored to your workflow. Create new capabilities with simple markdown files.
 - **Thought partner** - MARVIN pushes back on weak ideas, asks probing questions, and helps you think through decisions. Not just a yes-man.
 
-## Quick Start
+## Quick Start with Claude Code
 
 1. Clone this repository:
    ```bash
@@ -39,7 +39,6 @@ Want to use Copilot CLI to set up MARVIN quickly? Here's how:
 ### Prerequisites
 
 - [GitHub Copilot CLI](https://cli.github.com/) installed and authenticated
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed
 
 ### Quick Setup
 
