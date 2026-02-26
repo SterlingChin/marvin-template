@@ -19,9 +19,9 @@ Add a new entry below with:
 
 | Tool | Use Case | Requested By | Status |
 |------|----------|--------------|--------|
-| Notion | Search and create pages, manage wikis | - | Planned |
-| Slack | Send messages, search conversations | - | Planned |
-| Linear | Track issues, update tickets | - | Planned |
+| Notion | Search and create pages, manage wikis | - | Done |
+| Slack | Send messages, search conversations | - | Done |
+| Linear | Track issues, update tickets | - | Done |
 | Todoist | Manage tasks and projects | - | - |
 | Obsidian | Access local markdown notes | - | - |
 

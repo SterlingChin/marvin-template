@@ -116,6 +116,7 @@ Reusable capabilities Claude Code invokes contextually via the Skill tool. Skill
 | `/report` | Generate a weekly summary of your work |
 | `/commit` | Review and commit git changes |
 | `/code` | Open MARVIN in your IDE |
+| `/status` | Check integration health and workspace status |
 | `/help` | Show commands and available integrations |
 | `/sync` | Get updates from the MARVIN template |
 
@@ -179,6 +180,9 @@ I'll configure the integration directly and walk you through authentication usin
 | Atlassian | Jira, Confluence |
 | Microsoft 365 | Outlook, Calendar, OneDrive, Teams |
 | Google Workspace | Gmail, Calendar, Drive (requires additional setup) |
+| Slack | Team messaging, channels, search |
+| Notion | Pages, databases, wikis |
+| Linear | Issues, projects, tracking |
 
 **Manual setup (advanced):** Setup scripts are available in the template folder for users who prefer terminal setup. Check `.marvin-source` for the template path.
 

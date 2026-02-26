@@ -80,6 +80,7 @@ Between sessions, `/update` saves progress without ending. `/sync` pulls new fea
 | `/update` | Quick checkpoint (save progress) |
 | `/report` | Generate a weekly summary |
 | `/commit` | Review and commit git changes |
+| `/status` | Check integration & workspace health |
 | `/sync` | Get updates from the template |
 | `/help` | Show all commands and integrations |
 

@@ -23,6 +23,7 @@ Display this reference:
 | /report   | Generate a weekly summary of work   |
 | /commit   | Review and commit git changes       |
 | /code     | Open MARVIN in your IDE             |
+| /status   | Check integration & workspace health|
 | /help     | Show this help guide                |
 | /sync     | Get updates from MARVIN template    |
 ```
@@ -70,6 +71,9 @@ Just ask me to set one up! For example: "Help me connect to Jira"
 | Atlassian        | Jira tickets, Confluence pages            |
 | Microsoft 365    | Outlook email, Calendar, OneDrive, Teams  |
 | Google Workspace | Gmail, Calendar, Drive (advanced setup)   |
+| Slack            | Team messaging, channels, search          |
+| Notion           | Pages, databases, wikis                   |
+| Linear           | Issues, projects, tracking                |
 
 Want something else? Check `.marvin/integrations/REQUESTS.md` to see what's planned or request a new one!
 ```
