@@ -32,6 +32,28 @@
 
 ---
 
+## Configuration
+
+MARVIN reads personalized settings from `config.yaml` in your workspace root. This file is generated during setup and contains your Jira projects, Slack channels, Obsidian vault path, team workstreams, and other preferences.
+
+Skills reference `config.yaml` for their configuration rather than hardcoding values. To change what Jira projects your digest tracks, edit `config.yaml` — you don't need to edit individual skill files.
+
+**Never overwritten by `/sync`.** Your config is yours.
+
+---
+
+## Setup Guides
+
+Type `/guide` to see interactive setup guides. These walk you through setting up capabilities like:
+- Company-wide skills (Codex marketplace)
+- Obsidian second brain
+- Personalized team digest
+- Weekly review automation
+
+Each guide can be read on GitHub or run interactively inside MARVIN. Run `/guide {name}` to start one.
+
+---
+
 ## How MARVIN Works
 
 ### Core Principles
@@ -198,6 +220,7 @@ MARVIN can monitor your calendar for patterns. Add detection rules here:
 | `/report` | Generate a weekly summary of your work |
 | `/commit` | Review and commit git changes |
 | `/code` | Open MARVIN in your IDE |
+| `/guide` | Interactive setup walkthroughs |
 | `/skills` | Search, browse, and install agent skills |
 | `/status` | Check integration health and workspace status |
 | `/help` | Show commands and available integrations |
@@ -230,19 +253,32 @@ MARVIN can monitor your calendar for patterns. Add detection rules here:
 ```
 marvin/
 ├── CLAUDE.md              # This file
+├── config.yaml            # Your personalized settings (Jira, Slack, vault, etc.)
 ├── .marvin-source         # Points to template for updates
 ├── .env                   # Your secrets (not in git)
 ├── state/                 # Your current state
 │   ├── current.md         # Priorities and open threads
 │   └── goals.md           # Your goals
+├── skills/                # Your personalized skills
+│   ├── team-digest/       # Daily team digest (generated from blueprint)
+│   └── weekly-review/     # Weekly review (generated from blueprint)
 ├── sessions/              # Daily session logs
 ├── reports/               # Weekly reports (from /report)
 ├── content/               # Your content and notes
 └── .claude/               # MARVIN capabilities
     ├── commands/          # Slash commands (user-triggered)
-    │   └── skills.md      # /skills - skill discovery and install
+    │   └── guide.md       # /guide - interactive setup walkthroughs
     ├── agents/            # Subagent definitions (delegated work)
     └── skills/            # Reusable skills (contextual invocation)
+```
+
+**In the template repo** (referenced by `.marvin-source`):
+```
+fs-tq-marvin-template/
+├── guides/                # Setup walkthroughs (read by /guide)
+├── skill-blueprints/      # Skill templates with config placeholders
+├── profiles/              # Role-based config presets
+└── .marvin/               # Setup scripts and integrations
 ```
 
 Your workspace is yours. Add folders, files, projects, whatever you need.

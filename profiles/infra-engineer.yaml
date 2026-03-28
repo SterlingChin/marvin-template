@@ -1,0 +1,25 @@
+role: Infrastructure Engineer
+jira_projects:
+  - key: NET
+    name: Enterprise Network
+  - key: NETOPS
+    name: Network Operations
+  - key: NETDEV
+    name: Network Development
+slack_channels_monitor:
+  - bloom_network-eng
+  - netdev
+  - netops
+  - team_wan
+  - team-networking
+slack_channel_post: team-networking
+github_repos:
+  - fluidstackio/net-tools
+confluence_spaces:
+  - Networking
+digest:
+  workstreams:
+    - Engineering Core
+    - Deployment & Integration
+    - Operations & Reliability
+    - Corporate & Enterprise

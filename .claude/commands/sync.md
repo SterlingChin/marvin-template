@@ -77,7 +77,30 @@ cp {template}/.claude/commands/newcommand.md .claude/commands/
 If there are conflicts, explain:
 > "I found some commands that exist in both places. I kept your versions since you may have customized them. If you want the template version instead, let me know which ones and I'll update them."
 
-### 7. Finish
+### 7. Check Blueprint Updates
+
+Compare `skill-blueprints/` in the template with the user's workspace `skills/`:
+
+For each blueprint directory (e.g., `skill-blueprints/team-digest/`):
+- Check if the user has a corresponding skill (e.g., `skills/team-digest/`)
+- If they do, compare the blueprint SKILL.md with the user's SKILL.md
+- If the blueprint is newer or different:
+  - Show what changed (brief summary)
+  - Offer to regenerate: "The team-digest blueprint has been updated. Want me to regenerate your skill with the latest logic? Your config.yaml settings will be preserved."
+  - If yes: Read `config.yaml`, regenerate the skill from the blueprint with config values substituted, show the diff, and write
+  - If no: Note that their version is now custom
+
+### 8. Check for New Guides
+
+Read `config.yaml` for `guides_completed` list. Check `{template}/guides/` for guide files.
+
+If there are guides not in `guides_completed`:
+> "New guides available:
+> - {guide name} — {description}
+>
+> Run `/guide {slug}` to walk through any of them."
+
+### 9. Finish
 
 After syncing:
 > "All done! You now have the latest MARVIN features. Type `/help` to see what's available."

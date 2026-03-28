@@ -1,0 +1,25 @@
+role: Program Manager
+jira_projects:
+  - key: NET
+    name: Enterprise Network
+  - key: NETOPS
+    name: Network Operations
+  - key: NETDEV
+    name: Network Development
+  - key: CB3
+    name: CB3 Build
+slack_channels_monitor:
+  - team-networking
+  - netdev
+  - program-updates
+slack_channel_post: program-updates
+github_repos: []
+confluence_spaces:
+  - Networking
+  - Program Management
+digest:
+  workstreams:
+    - Program Milestones
+    - Cross-Team Dependencies
+    - Risk & Escalation
+    - Delivery Tracking

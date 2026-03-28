@@ -347,6 +347,24 @@ Last updated: {TODAY'S DATE}
 **Communication Style:** {Their preference - Professional/Casual/Sarcastic}
 ```
 
+### Step 5.5: Discover Setup Guides
+
+Tell them about the guides:
+
+> "Before we continue, I want to let you know about something cool. I have interactive setup guides that help you get the most out of me:
+>
+> 1. **Skills & MCP** — Install company-wide skills like the NRFC writer
+> 2. **Obsidian Vault** — Set up a git-tracked second brain for daily notes and task tracking
+> 3. **Team Digest** — Create a daily digest of your team's Jira, Slack, and GitHub activity
+> 4. **Weekly Review** — Automate your weekly planning with notes + Jira integration
+> 5. **Keeping Updated** — How to stay current as new features ship
+>
+> You can run these anytime by typing `/guide` inside MARVIN. Each one walks you through setup step by step — no coding experience needed.
+>
+> Want to try one now, or finish the basic setup first?"
+
+If they want to try one now, run `/guide` and let them pick. Otherwise, continue to Step 6.
+
 ### Step 6: Quick Launch Shortcut (Optional)
 
 Ask: "Would you like to be able to start me by just typing `marvin` anywhere in the terminal? It's a quick shortcut that makes it easier to open me up."

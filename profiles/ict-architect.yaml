@@ -1,0 +1,22 @@
+role: ICT Architect
+jira_projects:
+  - key: NET
+    name: Enterprise Network
+  - key: NETDEV
+    name: Network Development
+slack_channels_monitor:
+  - team-networking
+  - netdev
+  - architecture-review
+slack_channel_post: team-networking
+github_repos:
+  - fluidstackio/net-tools
+confluence_spaces:
+  - Networking
+  - Architecture
+digest:
+  workstreams:
+    - Architecture & Design
+    - Standards & Compliance
+    - Technology Evaluation
+    - Integration Patterns
