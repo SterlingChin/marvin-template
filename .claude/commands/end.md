@@ -128,6 +128,8 @@ Post to [destination]? (y/n)
 If decisions were made, also update the shared decisions doc/page.
 If blockers were raised or resolved, update the shared blockers.
 
+After posting the digest and updating decisions/blockers, regenerate `team-current.md` in the vault root. This is the human-readable team dashboard. Read the vault state (priorities, recent digests, decisions, blockers) and synthesize a fresh snapshot. See the `team-awareness` skill for the exact format.
+
 If `.marvin-team/team.yaml` does not exist, skip this step entirely.
 
 ### 6. Confirm

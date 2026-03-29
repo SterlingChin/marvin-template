@@ -62,6 +62,7 @@ behaviors:
     - post_digest               # Post session digest to team
     - update_decisions          # Update shared decisions if any made
     - update_blockers           # Update blockers if raised/resolved
+    - regenerate_team_current   # Regenerate team-current.md dashboard
 
   digest:
     format: "digest/format.md"  # Digest template

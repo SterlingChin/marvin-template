@@ -21,6 +21,8 @@ MARVIN-A (PM)           MARVIN-B (Engineer)      MARVIN-C (EM)
     |   +--------------------------------------------+|
     |   |        Shared Context Layer                ||
     |   |  (Slack, Google Docs, Confluence, etc.)    ||
+    |   |                                            ||
+    |   |  team-current.md (human-readable dashboard)||
     |   +--------------------------------------------+|
     |                        |                        |
     |                   /start: read ----------> /start: read
@@ -63,9 +65,11 @@ There is no direct communication between MARVIN instances. Everything flows thro
 │   └── format.md          # Digest template
 └── _template/             # Pristine template (do not edit)
     └── ...                # Same structure as above
+
+team-current.md            # Auto-generated team dashboard (vault root)
 ```
 
-**Shared with team:** `team.yaml`, `roles/`, `digest/`, `README.md`
+**Shared with team:** `team.yaml`, `roles/`, `digest/`, `README.md`, `team-current.md`
 **Local only:** `my-role.yaml` (your role selection)
 
 ## Configuration: team.yaml
@@ -107,6 +111,7 @@ behaviors:
     - post_digest
     - update_decisions
     - update_blockers
+    - regenerate_team_current
 ```
 
 ### Digest Settings

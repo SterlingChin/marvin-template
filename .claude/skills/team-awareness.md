@@ -232,6 +232,63 @@ If blockers were raised or resolved during this session:
 
 Update in the same shared context surface as digests. Blockers should be clearly marked so other MARVINs can surface them.
 
+### regenerate_team_current
+
+After posting a digest and updating decisions/blockers, regenerate `team-current.md` in the vault root. This is the human-readable team dashboard. One file, always current, scannable in 30 seconds.
+
+**How to generate:**
+
+Read the current state of all vault files:
+- `priorities/team-priorities.md` for active priorities and milestone progress
+- All digest files from the last 7 days (or use index files for efficiency)
+- `decisions/decisions.md` for recent decisions
+- `blockers/blockers.md` for active blockers
+- Each team member's most recent digest for their current focus
+
+Synthesize into `team-current.md` at the vault root with this structure:
+
+```markdown
+# [Team Name] — Team Current
+
+Last updated: YYYY-MM-DD by [Name]'s MARVIN
+
+## What's Happening Right Now
+
+Group by project/initiative, not by person. For each active project:
+- Current status (milestone progress, phase, etc.)
+- Key recent events (what shipped, what changed)
+- What's next
+
+Keep each project to 3-5 lines. If a project has no recent activity, drop it or mark it as "quiet."
+
+## Who's Doing What
+
+| Person | Current Focus | Status |
+|--------|--------------|--------|
+| {Name} | {1-line focus} | {On track / Blocked / Ahead} |
+
+One row per team member. Derived from their most recent digest. Status should be honest: "blocked" if they have blockers, "ahead" if they're beating targets, "on track" otherwise.
+
+## Active Blockers
+
+List any active blockers from `blockers/blockers.md`. If none, just say "None." Don't pad.
+
+## Recent Decisions
+
+Last 7 days of decisions from `decisions/decisions.md`. One line each: what was decided, who, when. Drop the rationale (it's in the full decisions log).
+
+## This Week's Wins
+
+Pull from recent digests: features shipped, targets exceeded, hires closed, blockers resolved. Keep it to 3-5 bullets. This section exists so a human opening this file gets a quick sense of momentum.
+```
+
+**Key principles:**
+- This is for HUMANS, not MARVINs. Write it like a team lead would write a status update for their skip-level.
+- No jargon, no internal ticket details unless they add clarity.
+- Scannable in 30 seconds. If it takes longer, it's too long.
+- Regenerated from scratch each time (not appended). The last MARVIN to run /end leaves the most current version.
+- If the vault has no digests yet (first session), create a minimal version with just priorities and "no activity yet."
+
 ## Tool Routing
 
 The skill reads `team.yaml` and routes to the correct tool. Available tools:

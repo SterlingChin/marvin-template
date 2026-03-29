@@ -111,6 +111,7 @@ behaviors:
     - post_digest                    # Draft and post session digest
     - update_decisions               # Update shared decisions if any made
     - update_blockers                # Update blockers if raised/resolved
+    - regenerate_team_current        # Regenerate team-current.md dashboard
 ```
 
 ### Digest Settings
@@ -235,3 +236,16 @@ Not meaningfully. Team mode's value comes from connecting to shared surfaces. Wi
 
 **How do I remove team mode?**
 Delete the `.marvin-team/` directory (except `_template/` if you want to keep it for later). Team mode deactivates automatically when `team.yaml` is absent.
+
+## Team Current (Dashboard)
+
+The file `team-current.md` in your shared vault root is a human-readable snapshot of the team's state. It's regenerated automatically every time any team member's MARVIN runs `/end`.
+
+Open this file when you want a quick answer to "what's happening with my team?" without reading individual digests.
+
+It includes:
+- Active projects with milestone progress
+- Who's working on what (one line per person)
+- Active blockers
+- Recent decisions (last 7 days)
+- This week's wins
