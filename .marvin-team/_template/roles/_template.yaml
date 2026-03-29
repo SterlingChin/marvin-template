@@ -1,0 +1,20 @@
+# Role Profile Template
+# Copy this file and customize for your team's roles.
+# Role profiles control what each MARVIN prioritizes in team briefings.
+
+role: ""                        # Role name (e.g., "Engineer", "PM")
+
+focus:
+  # Tool-specific filters for prioritization
+  # Uncomment the tools your team uses:
+
+  # jira_filters:
+  #   - "assignee = currentUser() AND status != Done"
+
+  # linear_filters:
+  #   - "assignee:me state:started"
+
+  # slack_priority_channels:    # Channels this role should prioritize
+  #   - "#channel-name"
+
+  digest_emphasis: ""           # What this role's digest should emphasize
