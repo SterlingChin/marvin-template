@@ -89,10 +89,52 @@ This is the most important step. Check the "Last updated" date in `state/current
 - Ensure open threads reflect reality (remove resolved, add new)
 - Ensure priorities are ordered by actual urgency
 
+### 5.5. Team Digest
+
+Check if `.marvin-team/team.yaml` exists. If it does, team mode is active.
+
+Invoke the `team-awareness` skill to draft and post a team digest:
+
+1. Read `.marvin-team/_template/digest/format.md` for the format template (or `.marvin-team/digest/format.md` if it exists in the working plugin)
+2. From this session, extract: shipped items, in-progress work, decisions made, blockers raised or resolved
+3. Draft the digest using the format template
+4. Read the user's name from the User Profile section of `CLAUDE.md`
+5. Present the draft and ask for approval:
+
+```
+Team digest for [configured destination]:
+
+## **[Name] — [Date]**
+
+**Shipped:**
+- {items}
+
+**In Progress:**
+- {items}
+
+**Decisions:**
+- {items}
+
+**Blockers:**
+- {items}
+
+Post to [destination]? (y/n)
+```
+
+6. **CRITICAL: Never auto-post. Always wait for explicit approval.**
+7. If approved: post using the tool configured in `behaviors.digest.post_to`
+8. If declined: note "Team digest skipped" in the session log
+
+If decisions were made, also update the shared decisions doc/page.
+If blockers were raised or resolved, update the shared blockers.
+
+If `.marvin-team/team.yaml` does not exist, skip this step entirely.
+
 ### 6. Confirm
 Show a brief summary:
 - What was logged
 - Key items for next session
 - State update confirmation (incremental or full refresh)
+- Team digest: posted to [destination] / skipped / team mode not active
 
 Keep it concise.
