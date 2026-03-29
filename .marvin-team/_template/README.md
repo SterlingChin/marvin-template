@@ -21,6 +21,14 @@ This directory configures MARVIN for team mode. When present in your workspace, 
 
 **On `/end`:** MARVIN drafts a team digest summarizing your session and asks for your approval before posting it to your team's shared channel or doc.
 
+## Digests
+
+Digest files use the naming format `YYYY-MM-DD-firstname-lastname.md` (e.g., `2026-03-28-alex-chen.md`). The name is derived from the User Profile in each member's CLAUDE.md. Full name prevents collisions when team members share a first name.
+
+Daily index files (`YYYY-MM-DD-index.md`) provide a scannable overview of all digests posted that day.
+
+See `digest/format.md` for the full digest template, definitions, and timing guidance.
+
 ## Configuration
 
 Edit `team.yaml` to change:

@@ -58,6 +58,24 @@ Use Atlassian MCP: `getConfluencePage` with `shared_context.confluence.prioritie
 **Notion:**
 Use Notion MCP to read `shared_context.notion.priorities_page_id`
 
+### Last Read Tracking
+
+To avoid re-reading all digests every session, maintain a local marker:
+
+After reading team context on `/start`, save the current timestamp to `.marvin-team/last-read`:
+```
+2026-03-29T17:30:00
+```
+
+On the next `/start`, only read digest files with modification dates AFTER this timestamp. Use file modification time or the date in the filename to filter.
+
+If `.marvin-team/last-read` doesn't exist (first run), read the last 3 days of digests as a reasonable window.
+
+**Important:** `last-read` is a local file, not shared. Each team member's MARVIN tracks their own read position.
+
+### Reading Order
+When multiple digests exist for the same day, read them in chronological order (by file modification time or by the sequence they appear in the index). Later digests may reference or correct earlier ones.
+
 ### read_recent_digests
 
 Read recent team digests from the configured communication channel:
@@ -111,6 +129,35 @@ Since your last session:
 ## Writing Team Context (on /end)
 
 For each behavior listed in `behaviors.on_end`, execute the corresponding action:
+
+### Digest File Naming
+
+When writing a digest, derive the filename from the user's name in CLAUDE.md:
+- Read the **Name** field from the User Profile
+- Convert to lowercase, replace spaces with hyphens
+- Format: `digests/YYYY-MM-DD-firstname-lastname.md`
+- Example: "Alex Chen" → `digests/2026-03-28-alex-chen.md`
+
+### Daily Digest Index
+
+After posting a digest, check if a daily index exists for today: `digests/YYYY-MM-DD-index.md`
+
+If it doesn't exist, create it:
+```markdown
+# Team Digests — YYYY-MM-DD
+
+| Team Member | Role | Shipped | Key Items |
+|-------------|------|---------|-----------|
+```
+
+Append a row for this team member:
+```markdown
+| [Name](YYYY-MM-DD-firstname-lastname.md) | Role | {1-line shipped summary} | {1-line key item} |
+```
+
+If the index already exists (another team member posted earlier), append a new row.
+
+The index gives a scannable overview of the day's activity with links to full digests. On `/start`, read the index files first for a quick summary, then drill into individual digests only for details.
 
 ### post_digest
 
