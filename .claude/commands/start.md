@@ -42,6 +42,22 @@ If integrations are configured (check `CLAUDE.md` for any configured services):
 - If any quick health checks are possible (e.g., auth status), run them
 - Do not block the briefing on integration issues, just note any problems
 
+### 6.5. Team Context
+
+Check if `.marvin-team/team.yaml` exists. If it does, team mode is active.
+
+Invoke the `team-awareness` skill to read shared team context. Based on the configured tools in `team.yaml`, gather:
+- Recent digests from teammates (posted since your last session)
+- Team decisions made since your last session
+- Active blockers across the team
+- Items needing your input (PR reviews, questions, etc.)
+
+If a role profile exists at `.marvin-team/my-role.yaml`, apply role-based filtering to prioritize what's surfaced.
+
+If any configured tools are unreachable, note the issue but don't block the briefing.
+
+If `.marvin-team/team.yaml` does not exist, skip this step entirely.
+
 ### 7. Present Structured Briefing
 
 Format the briefing with these sections:
@@ -65,6 +81,15 @@ Good {morning/afternoon/evening}. It's {DAY}, {DATE}.
 - {Overdue items from recent sessions}
 - {Anything flagged in decisions.md that needs follow-up}
 {If no alerts: omit this section}
+
+**TEAM**
+Since your last session:
+- {N digests posted (list member names)}
+- {Decisions: "topic" (by who, when)}
+- {Active blockers: "what" (raised by who, how long ago)}
+- {Items needing your input}
+{If nothing new: "Team: no updates since your last session."}
+{If team mode not active: omit this section entirely}
 ```
 
 Keep it concise. Offer details on any section if asked.
