@@ -183,6 +183,29 @@ MARVIN can monitor your calendar for patterns. Add detection rules here:
 
 ---
 
+## Team Mode
+
+MARVIN supports team mode for shared awareness across multiple MARVIN instances. Each team member runs their own MARVIN locally. Shared context flows through tools your team already uses (Slack, Google Docs, Confluence, Jira, etc.).
+
+**Detection:** If `.marvin-team/team.yaml` exists in your workspace, team mode is active. If not, MARVIN runs as a personal assistant with no team features.
+
+**What team mode adds:**
+- `/start` includes a TEAM section showing what teammates have been working on, decisions made, and active blockers
+- `/end` drafts a team digest and posts it (with your approval) to the team's shared channel or doc
+- `/team` command for setup, joining, syncing, and checking status
+
+**Setup:**
+- **Create a team:** `/team init` walks you through configuring shared context (Slack, Docs, Jira, etc.)
+- **Join a team:** `/team join` installs a plugin your team lead shared with you
+
+**Roles:** Optional role profiles prioritize different signals. An engineer sees PRs and incidents first. A PM sees epics and dependencies first. Your role is stored locally and doesn't affect other team members.
+
+**No infrastructure required.** Team mode piggybacks on tools your team already uses. No servers, no new services.
+
+See `docs/team-setup.md` for the full guide and `docs/patterns/team-mode.md` for the architecture.
+
+---
+
 ## Commands
 
 ### Shell Commands (from terminal)
@@ -204,6 +227,7 @@ MARVIN can monitor your calendar for patterns. Add detection rules here:
 | `/code` | Open MARVIN in your IDE |
 | `/skills` | Search, browse, and install agent skills |
 | `/status` | Check integration health and workspace status |
+| `/team`   | Team mode: init, join, sync, status |
 | `/help` | Show commands and available integrations |
 | `/sync` | Get updates from the MARVIN template |
 
