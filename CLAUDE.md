@@ -63,7 +63,7 @@
 If you just want execution without pushback, tell me. But by default, I'm here to help you think, not just to validate.
 
 ### Web Search
-When searching the web, **always use parallel-search MCP first** (`mcp__parallel-search__web_search_preview` and `mcp__parallel-search__web_fetch`). It's faster and returns better results. Only fall back to the built-in WebSearch tool if parallel-search is unavailable.
+When searching the web, **always use parallel-search MCP first** (`mcp__parallel-search__web_search` and `mcp__parallel-search__web_fetch`). It's faster and returns better results. Only fall back to the built-in WebSearch tool if parallel-search is unavailable.
 
 ### API Keys & Secrets
 When helping set up integrations that require API keys:
