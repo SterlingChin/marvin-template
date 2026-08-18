@@ -49,7 +49,7 @@ echo -e "${BLUE}Adding Parallel Search MCP to Claude Code...${NC}"
 claude mcp remove parallel-search 2>/dev/null || true
 
 # Add Parallel Search remote MCP server
-claude mcp add parallel-search $SCOPE_FLAG --transport http https://search-mcp.parallel.ai/mcp
+claude mcp add parallel-search $SCOPE_FLAG --transport http https://search.parallel.ai/mcp
 
 echo ""
 echo -e "${GREEN}Parallel Search MCP added!${NC}"

@@ -500,7 +500,7 @@ echo "Setting up core capabilities..."
 # Add parallel-search MCP for web search
 if command_exists claude; then
     claude mcp remove parallel-search 2>/dev/null || true
-    claude mcp add parallel-search -s user --transport http https://search-mcp.parallel.ai/mcp
+    claude mcp add parallel-search -s user --transport http https://search.parallel.ai/mcp
     print_color "$GREEN" "Added: Web search (parallel-search)"
 fi
 

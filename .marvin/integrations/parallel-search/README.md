@@ -34,7 +34,7 @@ After setup, try these commands with MARVIN:
 
 ## Tools Available
 
-### web_search_preview
+### web_search
 Search the web with natural language queries. Returns results optimized for LLMs.
 
 ### web_fetch
