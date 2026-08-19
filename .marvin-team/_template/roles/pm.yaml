@@ -1,0 +1,9 @@
+role: Program Manager
+focus:
+  jira_filters:
+    - "type = Epic AND status != Done"
+    - "status = Blocked"
+  slack_priority_channels:
+    - "#program-updates"
+    - "#cross-team"
+  digest_emphasis: "milestone progress, cross-team dependencies, risks, timeline changes"

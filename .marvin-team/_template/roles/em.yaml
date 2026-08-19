@@ -1,0 +1,9 @@
+role: Engineering Manager
+focus:
+  jira_filters:
+    - "type = Epic AND status != Done"
+    - "assignee in membersOf('engineering')"
+  slack_priority_channels:
+    - "#eng-general"
+    - "#eng-hiring"
+  digest_emphasis: "team velocity, blockers affecting multiple people, hiring updates, process changes"

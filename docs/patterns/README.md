@@ -13,6 +13,7 @@ Architectural blueprints for building powerful MARVIN capabilities. These patter
 | [Always-On Daemon](always-on-daemon.md) | Background service for scheduled tasks |
 | [Mobile Access](mobile-access.md) | Running MARVIN from your phone |
 | [Parallel Worktrees](parallel-worktrees.md) | Multiple simultaneous sessions |
+| [Team Mode](team-mode.md) | Shared awareness across multiple MARVIN instances |
 
 ## How to Use These
 

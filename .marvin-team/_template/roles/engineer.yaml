@@ -1,0 +1,9 @@
+role: Engineer
+focus:
+  jira_filters:
+    - "assignee = currentUser() AND status != Done"
+    - "type = Bug AND priority in (Critical, High)"
+  slack_priority_channels:
+    - "#incidents"
+    - "#deployments"
+  digest_emphasis: "code shipped, PRs merged, bugs fixed, blockers hit"

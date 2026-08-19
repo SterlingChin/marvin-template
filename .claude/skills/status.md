@@ -100,11 +100,51 @@ Verify these components:
 7. **Git Status** - Is the workspace a git repo? Any uncommitted changes?
 8. **Goals** - Are there active goals in `state/goals.md`?
 
-### Step 4: Identify Available Integrations
+### Step 4: Team Mode
+
+Check if `.marvin-team/team.yaml` exists:
+
+**If team mode is active:**
+- Read team name from `team.yaml`
+- Read role from `my-role.yaml` (or "not set")
+- For each configured tool in `shared_context`, check connectivity:
+  - Slack: attempt to read digest channel
+  - Google Docs: verify doc IDs are accessible
+  - Confluence/Jira: check Atlassian MCP connection
+  - Notion/Linear: check respective MCP connections
+- Note last digest posted (scan recent posts in digest destination)
+- List team members seen in recent digests
+
+**If team mode is not active:**
+- Show "Team mode: not configured"
+
+Add to the status report output:
+
+```
+### Team Mode
+
+| Setting | Value |
+|---------|-------|
+| Status | ✅ Active / Not configured |
+| Team | {team name} |
+| Your Role | {role or "not set"} |
+| Digest Destination | {where digests post} |
+| Last Digest | {date or "never"} |
+
+| Tool | Status |
+|------|--------|
+| Slack | ✅ Connected / ❌ Not connected |
+| Google Docs | ✅ Connected / ❌ Not connected |
+| Jira | ✅ Connected / ❌ Not connected |
+```
+
+Only show tools that are configured in `team.yaml`. Skip unconfigured tools.
+
+### Step 5: Identify Available Integrations
 
 Check which integrations could be set up but aren't configured yet. Reference known integration options and suggest setup.
 
-### Step 5: Present Report
+### Step 6: Present Report
 
 Format the output as a clear status dashboard.
 
